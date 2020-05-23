@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "98749707104",
+    "firebase_url": "https://wordgame-26b46.firebaseio.com",
+    "project_id": "wordgame-26b46",
+    "storage_bucket": "wordgame-26b46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98749707104:android:3a63855aa710eaeed0a405",
+        "android_client_info": {
+          "package_name": "app.word.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98749707104-bfnrs45qsnvjpbhe3tnaij9rn2vbldc9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ4-BGR6qXsLnX6upx6nx9PAQyclrRq4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98749707104-bfnrs45qsnvjpbhe3tnaij9rn2vbldc9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

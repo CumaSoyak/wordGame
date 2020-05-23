@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#939393</color>
+    <color name="backgroundcolor">#fcfcfc</color>
+    <color name="background">#dcdcdc</color>
+    <color name="white">#ededed</color>
+    <color name="deeppurple">#7c4dff</color>
+    <color name="yello">#ffb300</color>
+     <color name="colorAccent">#FF4081</color>
+    <color name="grey">#D3D3D3</color>
+    <color name="ic_cancel">#FF4081</color>
+    <color name="black">#C0C0C0</color>
+    <color name="bluedark">#2f333f</color>
+    <color name="alt_cizgi">#f2f2f2</color>
+    <color name="koyusiyah">#000506</color>
+    <color name="orange">#eaad43</color>
+    <color name="yesil">#32CD32</color>
+    <color name="mavi">#00008B</color>
+    <color name="kırmızı">#FF0000</color>
+    <color name="butonrenk">#FFEFD5</color>
+    <color name="transparan">#80000000</color>
+    <color name="buton_click">#FFFFE0</color>
+    <color name="acıksiyah">#5D6D7E</color>
+    <color name="marketarkaplan">#E6E6FA</color>
+    <color name="dark_green">#1E9E33</color>
+    <color name="pink">#F01F81</color>
+    <color name="blue">#4F44FF</color>
+    <color name="border">#04193B</color>
+    <color name="tundura">#4A4A4A</color>
+    <color name="green">#34B55E</color>
+    <color name="red">#DC4E41</color>
+</resources>
