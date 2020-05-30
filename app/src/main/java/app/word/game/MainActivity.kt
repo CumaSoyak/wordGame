@@ -3,18 +3,23 @@ package app.word.game
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import app.word.game.CoreApp.Companion.db
+import app.word.game.model.Question
 import app.word.game.utlis.DialogUtils
 import app.word.game.utlis.PrefUtils
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import com.google.gson.Gson
 import com.soyak.extensions.utils.extensions.launchActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     var rotation: Int = 0
 
-    private val mRewardedVideoAd: RewardedVideoAd? = null
+    private var mRewardedVideoAd: RewardedVideoAd? = null
     private var interstitialAd: InterstitialAd? = null
 
 
@@ -37,9 +42,22 @@ class MainActivity : AppCompatActivity() {
         animation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         mediaPlayer = MediaPlayer.create(this, R.raw.play_game)
         listener()
-        tvLevel.text = PrefUtils.getLevel()
+        tvLevel.text = "Level: " + PrefUtils.getLevel().toString()
         setPoint()
         fullScreenAd()
+        firstOpen()
+        questionUpdate()
+    }
+
+    fun questionUpdate() {
+        if (PrefUtils.getQuestion("6") == null) {
+            getQuestionEnglish(1)
+        }
+        FirebaseHelper().isAppUpdateQuestion {
+            if (it) {
+                getQuestionEnglish(1)
+            }
+        }
     }
 
     fun fullScreenAd() {
@@ -56,10 +74,10 @@ class MainActivity : AppCompatActivity() {
 
     fun listener() {
         ivPlay.setOnClickListener {
-            if (PrefUtils.getHeart().equals("0")) {
+            if (PrefUtils.getHeart() == 0) {
                 DialogUtils.showPopupChoose(this) {
                     if (mRewardedVideoAd?.isLoaded!!) {
-                        mRewardedVideoAd.show()
+                        mRewardedVideoAd!!.show()
                     }
                 }
             } else {
@@ -71,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         }
         animationListener()
         rewardListener()
+        ivSettings.setOnClickListener {
+            DialogUtils.showPopupMode(this) {}
+        }
+
     }
 
     fun startReturn() {
@@ -129,7 +151,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        interstitialAd?.show()
+        if (!PrefUtils.getNotAds() && !PrefUtils.getNotAdsAndOffline()) {
+            interstitialAd?.show()
+        }
         restartCategory()
     }
 
@@ -145,12 +169,12 @@ class MainActivity : AppCompatActivity() {
 
     fun setPoint() {
         //ca-app-pub-7740710689946524/5048304902
-        category_history.progress(PrefUtils.getPointTrue("1").toInt())
-        category_sience.progress(PrefUtils.getPointTrue("2").toInt())
-        category_fun.progress(PrefUtils.getPointTrue("3").toInt())
-        category_geography.progress(PrefUtils.getPointTrue("4").toInt())
-        category_art.progress(PrefUtils.getPointTrue("5").toInt())
-        category_sport.progress(PrefUtils.getPointTrue("6").toInt())
+        category_history.progress(PrefUtils.progressCalculate("1"))
+        category_sience.progress(PrefUtils.progressCalculate("2"))
+        category_fun.progress(PrefUtils.progressCalculate("3"))
+        category_geography.progress(PrefUtils.progressCalculate("4"))
+        category_art.progress(PrefUtils.progressCalculate("5"))
+        category_sport.progress(PrefUtils.progressCalculate("6"))
 
         cvHeart.setPoint(
             PrefUtils.getHeart().toString(),
@@ -167,37 +191,39 @@ class MainActivity : AppCompatActivity() {
 
 
         if (PrefUtils.pointSumTrue() > PrefUtils.pointSumTrue()) {
-            PrefUtils.setLevel((PrefUtils.pointSumTrue() / 15).toString())
+            PrefUtils.setLevel((PrefUtils.pointSumTrue() - PrefUtils.pointSumFalse() / 10))
         }
     }
 
     fun rewardListener() {
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
         mRewardedVideoAd?.loadAd(
             "ca-app-pub-7740710689946524/6319339764",
             AdRequest.Builder().build()
         )
         mRewardedVideoAd?.rewardedVideoAdListener = object : RewardedVideoAdListener {
             override fun onRewardedVideoAdClosed() {
-
+                print("")
             }
 
             override fun onRewardedVideoAdLeftApplication() {
-
+                print("")
             }
 
             override fun onRewardedVideoAdLoaded() {
-
+                print("")
             }
 
             override fun onRewardedVideoAdOpened() {
-
+                print("")
             }
 
             override fun onRewardedVideoCompleted() {
-                PrefUtils.setHeart(3)
             }
 
-            override fun onRewarded(p0: RewardItem?) {
+            override fun onRewarded(reward: RewardItem?) {
+                PrefUtils.setHeart(reward?.amount!!)
+                setPoint()
 
             }
 
@@ -210,6 +236,71 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun firstOpen() {
+        if (PrefUtils.checkIsFirstTimeOpen()) {
+            DialogUtils.showPopupMode(this) {
+                DialogUtils.showPopupFirstLearning(this) {
+                    ivPlay.performClick()
+                }
+            }
+        }
+
+        var count: Int = 0
+        val timer = object : CountDownTimer(1000, 10) {
+            override fun onFinish() {
+            }
+
+            override fun onTick(time: Long) {
+                100 - count++
+                category_history.progress(count)
+                category_sience.progress(count)
+                category_fun.progress(count)
+                category_geography.progress(count)
+                category_art.progress(count)
+                category_sport.progress(count)
+            }
+
+
+        }
+        timer.start()
+
+    }
+
+    fun getQuestionEnglish(category: Int) {
+        val questionList: ArrayList<Question> = arrayListOf()
+        val docRef = db.collection("question").document("info").collection(category.toString())
+            .whereEqualTo("option", "2")
+        docRef.addSnapshotListener { snapshot, e ->
+            snapshot?.forEachIndexed { index, queryDocumentSnapshot ->
+                val data: Question = queryDocumentSnapshot.toObject(Question::class.java)
+                questionList.add(data)
+            }
+            if (category <= 6) {
+                PrefUtils.setQuestion("2", category.toString(), Gson().toJson(questionList))
+                getQuestionEnglish(category + 1)
+                getQuestionCulture(1)
+            }
+
+        }
+    }
+
+    fun getQuestionCulture(category: Int) {
+        val questionList: ArrayList<Question> = arrayListOf()
+        val docRef = db.collection("question").document("info").collection(category.toString())
+            .whereEqualTo("option", "1")
+        docRef.addSnapshotListener { snapshot, e ->
+            snapshot?.forEachIndexed { index, queryDocumentSnapshot ->
+                val data: Question = queryDocumentSnapshot.toObject(Question::class.java)
+                questionList.add(data)
+            }
+            if (category <= 6) {
+                PrefUtils.setQuestion("1", category.toString(), Gson().toJson(questionList))
+                getQuestionCulture(category + 1)
+            }
+
+        }
     }
 
 }

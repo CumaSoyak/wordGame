@@ -20,7 +20,7 @@ class CoreApp : MultiDexApplication() {
         context = applicationContext
         db = FirebaseFirestore.getInstance()
 
-        MobileAds.initialize(this, "ca-app-pub-7740710689946524~1155746649")
+      //  MobileAds.initialize(this, "ca-app-pub-7740710689946524~1155746649")
 
         registerActivityLifecycleCallbacks(object:ActivityLifecycleCallbacks{
             override fun onActivityPaused(activity: Activity) {

@@ -16,6 +16,7 @@ class EnterActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
 
     var category: String = ""
+    var options: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +26,24 @@ class EnterActivity : AppCompatActivity() {
         sec.setOnClickListener {
             secCategory()
         }
+        option.setOnClickListener {
+            option()
+        }
         kaydet.setOnClickListener {
             savedQuestion()
         }
+    }
+
+    fun option() {
+        val popup = PopupMenu(this, sec)
+        popup.menu.add(0, 2, 0, "İngilizce")
+        popup.menu.add(0, 1, 0, "Kültür")
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
+            options = item?.itemId.toString()
+            option.text = item?.title.toString()
+            true
+        }
+        popup.show()
     }
 
     fun secCategory() {
@@ -40,11 +56,12 @@ class EnterActivity : AppCompatActivity() {
         popup.menu.add(0, 6, 0, "Spor")
         popup.setOnMenuItemClickListener { item: MenuItem? ->
             category = item?.itemId.toString()
-            sec.text=item?.title.toString()
+            sec.text = item?.title.toString()
             true
         }
         popup.show()
     }
+
 
     fun savedQuestion() {
 
@@ -64,7 +81,8 @@ class EnterActivity : AppCompatActivity() {
             "question" to soru.text.toString(),
             "chooseOne" to chooseOne,
             "chooseTwo" to chooseTwo,
-            "answer" to dogru.text.toString()
+            "answer" to dogru.text.toString(),
+            "option" to options
         )
 
         db.collection("question")

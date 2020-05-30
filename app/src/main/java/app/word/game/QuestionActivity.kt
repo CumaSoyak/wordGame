@@ -39,11 +39,9 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
         animationTrue = AnimationUtils.loadAnimation(this, R.anim.left)
         animationFalse = AnimationUtils.loadAnimation(this, R.anim.vibration)
         initListener()
-        //questionList.addAll(dummyQuestion())
         db = FirebaseFirestore.getInstance()
         tvQuestion.setCategory(category)
-        //getQuestion()
-        questionList = dummyQuestion()
+        questionList = PrefUtils.getQuestion(PrefUtils.getOptionCategory()+category.toString())!!
         initData()
     }
 
@@ -115,6 +113,8 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
                 tvCong.visibility = View.VISIBLE
             }
             heart.text = "3"
+        } else if (mFalseAnswer == 3) {
+            PrefUtils.setHeart(-1)
         } else {
             heart.text = (3 - mFalseAnswer).toString()
         }
@@ -131,14 +131,8 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
         btnRestart.setOnClickListener {
             finish()
             myDialog.dismiss()
-            PrefUtils.setPointTrue(
-                category.toString(),
-                (PrefUtils.getPointTrue(category.toString()).toInt() + mTrueAnswer).toString()
-            )
-            PrefUtils.setPointFalse(
-                category.toString(),
-                (PrefUtils.getPointFalse(category.toString()).toInt() + mFalseAnswer).toString()
-            )
+            PrefUtils.setPointTrue(category.toString(), mTrueAnswer)
+            PrefUtils.setPointFalse(category.toString(), mFalseAnswer)
         }
 
         myDialog.setCancelable(false)
@@ -146,20 +140,16 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
     }
 
 
-    fun getQuestion() {
-        val docRef = db.collection("question").document("info").collection(category.toString())
-        docRef.addSnapshotListener { snapshot, e ->
-            snapshot?.forEachIndexed { index, queryDocumentSnapshot ->
-                val data: Question = queryDocumentSnapshot.toObject(Question::class.java)
-                questionList.add(data)
-            }
-            initData()
-        }
-    }
-
     fun dummyQuestion(): ArrayList<Question> {
         var question: ArrayList<Question> = arrayListOf()
-        question.add(Question("ben", "ben", "sen", "ben"))
+        question.add(
+            Question(
+                "we can go ss cuma \n usa dd",
+                "we can go ss sdfdfsdf sdfsdf",
+                "sen",
+                "ben"
+            )
+        )
         question.add(Question("dünya", "fff", "dünya", "dünya"))
         question.add(Question("ankara", "ankara", "o", "ankara"))
         question.add(Question("anne", "mersin", "anne", "anne"))

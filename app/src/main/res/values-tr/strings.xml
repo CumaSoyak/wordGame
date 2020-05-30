@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Word Game</string>
+    <string name="yeniden_oyna">Yeniden oyna</string>
+    <string name="vazgec">Vazgeç</string>
+    <string name="tum_sorulari_bildin">🎉 Tebrikler tüm soruları bildin 🎉</string>
+    <string name="tebrikler_satin_aldiniz">Tebrikler Satın Aldınız</string>
+    <string name="tarih">Tarih</string>
+    <string name="spor">Spor</string>
+    <string name="sinirsiz_sure">Sınırsız Süre</string>
+    <string name="sinirsiz_oyna">Sınırsız oyna</string>
+    <string name="sinirsiz_can">Sınırız can</string>
+    <string name="sanat">Sanat</string>
+    <string name="reklamsiz_ve_offline">Reklamsız ve Offline Oyna</string>
+    <string name="reklamsiz_oyna">Reklamsız Oyna</string>
+    <string name="learning_english">İngilize Öğren</string>
+    <string name="guncelle_uygulama">Uygulamayı güncelleyiniz</string>
+    <string name="guncelle">Güncelle</string>
+    <string name="eglence">Eğlence</string>
+    <string name="devam_et">Devam et</string>
+    <string name="cografya">Coğrafya</string>
+    <string name="choose_mode">Mod Seç</string>
+    <string name="bilim">Bilim</string>
+    <string name="learning_text">ÇArkı çevir ve başla</string>
+    <string name="next">Devam</string>
+    <string name="offline_oyna">Oflline Oyna</string>
+    <string name="learning_culture">"Kültürlen "</string>
+</resources>

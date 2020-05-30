@@ -15,7 +15,7 @@
         android:fontFamily="@font/bungee1"
         android:gravity="center"
         android:text="48"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,9 +38,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/titan_one"
         android:text="Level 1"
-        android:visibility="gone"
         android:textColor="@color/green"
         android:textSize="25sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout"
         app:layout_constraintStart_toEndOf="@+id/appCompatTextView"
@@ -75,5 +75,18 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_heart" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvPremiumHeart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/titan_one"
+        android:text="Premium"
+        android:textColor="@color/yello"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,5 @@ import app.logistics.utils.helper.genericadapter.ListItemViewModel
 data class Sales(
     var id: String,
     var title: String,
-    var price: String,
-    var image: Drawable
+     var image: Drawable
 ) : ListItemViewModel()

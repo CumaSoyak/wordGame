@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
@@ -22,49 +23,64 @@ class CvToolbar @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.cv_toolbar, this)
         animationFalse = AnimationUtils.loadAnimation(context, R.anim.vibration_heart)
-       // tvLevel.text = PrefUtils.getLevel()
+        // tvLevel.text = PrefUtils.getLevel()
     }
 
     fun calculateTime(iGameOver: IGameOver) {
-        val timer = object : CountDownTimer(20000, 1000) {
-            override fun onFinish() {
-                iGameOver.finishGame()
+        if (!PrefUtils.getUnLimitedTime()) {
+            val timer = object : CountDownTimer(20000, 1000) {
+                override fun onFinish() {
+                    iGameOver.finishGame()
+                }
+
+                override fun onTick(millisUntilFinished: Long) {
+                    val millis = millisUntilFinished
+                    val seconds =
+                        ((TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(millis)
+                        )).toString())
+                    tvTime.text = seconds
+                }
+
+
             }
-
-            override fun onTick(millisUntilFinished: Long) {
-                val millis = millisUntilFinished
-                val seconds =
-                    ((TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(
-                        TimeUnit.MILLISECONDS.toMinutes(millis)
-                    )).toString())
-                tvTime.text = seconds
-            }
-
-
+            timer.start()
+        } else {
+            tvTime.text = "Premium"
+            tvTime.setTextColor(resources.getColor(R.color.yello))
+            tvTime.textSize=18f
         }
-        timer.start()
+
     }
 
     fun falseAnswer(iGameOver: IGameOver) {
-        answer++
-        when (answer) {
-            1 -> {
-                ivHeart1.setImageResource(R.drawable.ic_heart_kirik)
-                ivHeart1.startAnimation(animationFalse)
-            }
-            2 -> {
-                ivHeart2.setImageResource(R.drawable.ic_heart_kirik)
-                ivHeart2.startAnimation(animationFalse)
+        if (!PrefUtils.getUnLimitedHeart())
+        {
+            answer++
+            when (answer) {
+                1 -> {
+                    ivHeart1.setImageResource(R.drawable.ic_heart_kirik)
+                    ivHeart1.startAnimation(animationFalse)
+                }
+                2 -> {
+                    ivHeart2.setImageResource(R.drawable.ic_heart_kirik)
+                    ivHeart2.startAnimation(animationFalse)
 
-            }
-            3 -> {
-                ivHeart3.setImageResource(R.drawable.ic_heart_kirik)
-                ivHeart3.startAnimation(animationFalse)
+                }
+                3 -> {
+                    ivHeart3.setImageResource(R.drawable.ic_heart_kirik)
+                    ivHeart3.startAnimation(animationFalse)
 
-                iGameOver.finishGame()
+                    iGameOver.finishGame()
 
+                }
             }
         }
+        else{
+            linearLayout.visibility= View.GONE
+            tvPremiumHeart.visibility= View.VISIBLE
+        }
+
     }
 
 }

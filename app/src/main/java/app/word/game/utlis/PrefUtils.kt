@@ -3,7 +3,9 @@ package app.word.game.utlis
 import android.content.Context
 import android.content.SharedPreferences
 import app.word.game.CoreApp
-import com.google.gson.GsonBuilder
+import app.word.game.model.Question
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import com.soyak.extensions.utils.extensions.get
 import com.soyak.extensions.utils.extensions.removeValue
 import com.soyak.extensions.utils.extensions.setValue
@@ -16,6 +18,8 @@ object PrefUtils {
     private const val TRUEPOINT = "TRUEPOINT"
     private const val FALSEPOINT = "FALSEPOINT"
     private const val HEART = "HEART"
+    private const val Option = "Option"
+    private const val Question = "Question"
 
 
     private val instance: SharedPreferences =
@@ -32,31 +36,29 @@ object PrefUtils {
 
 
     fun getHeart(): Int {
-        return instance.getInt(HEART, 0)
+        if (getUnLimitedHeart()) {
+            return +999
+        } else {
+            return instance.getInt(HEART, 3)
+        }
     }
 
     fun setHeart(heart: Int) {
         instance.setValue(HEART, getHeart() + heart)
     }
 
-    fun setLevel(level: String) {
+    fun setLevel(level: Int) {
         instance.setValue(LEVEL, level)
     }
 
-    fun getLevel(): String {
-        if (instance.getString(LEVEL, null).isNullOrEmpty()) {
-            return "Level: 1"
-        } else {
-            return "Level: " + GsonBuilder().create()
-                .fromJson(instance.getString(LEVEL, ""), String::class.java)
-        }
+    fun getLevel(): Int {
+        return instance.getInt(LEVEL, 1)
     }
 
     fun updatePremium(type: String) {
         instance.setValue(PREMIUM, type)
 
     }
-
 
     fun remove(key: String) {
         instance.removeValue(key)
@@ -66,42 +68,118 @@ object PrefUtils {
         instance.get(key, value)
     }
 
-    fun setPointTrue(category: String, point: String) {
-        instance.setValue(category + TRUEPOINT, point)
+    fun setPointTrue(category: String, point: Int) {
+        instance.setValue(category + TRUEPOINT, point + getPointTrue(category))
     }
 
-    fun setPointFalse(category: String, point: String) {
-        instance.setValue(category + FALSEPOINT, point)
+    fun setPointFalse(category: String, point: Int) {
+        instance.setValue(category + FALSEPOINT, point + getPointFalse(category))
     }
 
-    fun getPointTrue(category: String): String {
-        if (instance.getString(category + TRUEPOINT, null).isNullOrEmpty()) {
-            return "1"
+    fun getPointTrue(category: String): Int {
+        return instance.getInt(category + TRUEPOINT, 0)
+    }
+
+    fun getPointFalse(category: String): Int {
+        return instance.getInt(category + FALSEPOINT, 0)
+    }
+
+    fun progressCalculate(category: String): Int {
+        var sumProg = getPointTrue(category) - getPointFalse(category)
+        if (sumProg > 0) {
+            return sumProg
         } else {
-            return GsonBuilder().create()
-                .fromJson(instance.getString(category + TRUEPOINT, ""), String::class.java)
-        }
-    }
-
-    fun getPointFalse(category: String): String {
-        if (instance.getString(category + FALSEPOINT, null).isNullOrEmpty()) {
-            return "1"
-        } else {
-            return GsonBuilder().create()
-                .fromJson(instance.getString(category + FALSEPOINT, ""), String::class.java)
+            return 0
         }
     }
 
     fun pointSumTrue(): Int {
-        return getPointTrue("1").toInt() + getPointTrue("2").toInt() + getPointTrue("3").toInt() + getPointTrue(
+        return getPointTrue("1") + getPointTrue("2") + getPointTrue("3") + getPointTrue(
             "4"
-        ).toInt() + getPointTrue("4").toInt() + getPointTrue("5").toInt()
+        ) + getPointTrue("4") + getPointTrue("5")
     }
 
     fun pointSumFalse(): Int {
-        return getPointFalse("1").toInt() + getPointFalse("2").toInt() + getPointFalse("3").toInt() + getPointFalse(
+        return getPointFalse("1") + getPointFalse("2") + getPointFalse("3") + getPointFalse(
             "4"
-        ).toInt() + getPointFalse("4").toInt() + getPointFalse("5").toInt()
+        ) + getPointFalse("4") + getPointFalse("5")
+    }
+
+    fun getOption(): Boolean {
+        return instance.getBoolean(Option, false) //default culture
+    }
+
+    fun getOptionCategory(): String {
+        if (getOption()) {
+            return "2"  //english
+        } else {
+            return "1" //culture
+        }
+    }
+
+    fun setOption(boolean: Boolean) {
+        instance.setValue(Option, boolean)
+    }
+
+    fun setQuestion(mode:String,category: String, data: String) {
+        instance.setValue(mode+category + Question, data)
+    }
+
+    fun getQuestion(category: String): ArrayList<Question>? {
+        val turnsType = object : TypeToken<ArrayList<Question>>() {}.type
+        val turns = Gson().fromJson<ArrayList<Question>>(
+            instance.getString(category + Question, ""),
+            turnsType
+        )
+        return turns
+    }
+
+    /**Premium*/
+    private const val OFFLINE = "OFFLINE"
+    private const val UnLimitedTime = "UnLimitedTime"
+    private const val UnLimitedHeart = "UnLimitedHeart"
+    private const val NotAds = "NotAds"
+    private const val NotAdsAndOffline = "NotAdsAndOffline"
+
+    fun getOffline(): Boolean {
+        return instance.getBoolean(OFFLINE, false)
+    }
+
+    fun getUnLimitedTime(): Boolean {
+        return instance.getBoolean(UnLimitedTime, false)
+    }
+
+    fun getUnLimitedHeart(): Boolean {
+        return instance.getBoolean(UnLimitedHeart, false)
+    }
+
+    fun getNotAds(): Boolean {
+        return instance.getBoolean(NotAds, false)
+    }
+
+    fun getNotAdsAndOffline(): Boolean {
+        return instance.getBoolean(NotAdsAndOffline, false)
+    }
+
+
+    fun setOffline() {
+        instance.setValue(OFFLINE, true)
+    }
+
+    fun setUnLimitedTime() {
+        instance.setValue(UnLimitedTime, true)
+    }
+
+    fun setUnLimitedHeart() {
+        instance.setValue(UnLimitedHeart, true)
+    }
+
+    fun setNotAds() {
+        instance.setValue(NotAds, true)
+    }
+
+    fun setNotAdsAndOffline() {
+        instance.setValue(NotAdsAndOffline, true)
     }
 
 

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import app.word.game.utlis.DialogUtils
+import app.word.game.utlis.PrefUtils
 import app.word.game.utlis.showError
 import com.soyak.extensions.utils.NetworkUtils
 import com.soyak.extensions.utils.extensions.launchActivity
@@ -13,24 +14,34 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (NetworkUtils.isNetworkAvailable(this)) {
-            FirebaseHelper().isAppUpdate { update ->
-                if (update) {
-                    updateApp()
-                } else {
-                    launchActivity<MainActivity> {  }
-                }
-            }
+        PrefUtils.setNotAds()
+        if (PrefUtils.getOffline() || PrefUtils.getNotAdsAndOffline()) {
+            nextMainActivity()
         } else {
-            showError("İnternet bağlantınızı kontrol ediniz !")
+            if (NetworkUtils.isNetworkAvailable(this)) {
+                nextMainActivity()
+            } else {
+                showError("İnternet bağlantınızı kontrol ediniz !")
+            }
+        }
+
+    }
+
+    fun nextMainActivity() {
+        FirebaseHelper().isAppUpdate { update ->
+            if (update) {
+                updateApp()
+            } else {
+                launchActivity<MainActivity> { }
+            }
         }
     }
 
     fun updateApp() {
         val model = DialogUtils.DialogModel(
-            "Uygulamayı güncelleyiniz",
-            "Güncelle",
-            "Vazgeç",
+            getString(R.string.guncelle_uygulama),
+            getString(R.string.guncelle),
+            getString(R.string.vazgec),
             R.drawable.ic_success,
             false
         )

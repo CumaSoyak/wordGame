@@ -14,9 +14,9 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/titan_one"
         android:gravity="center"
-        android:visibility="gone"
-        android:text=" 🎉 Tebrikler tüm soruları bildin 🎉 "
+        android:text="@string/tum_sorulari_bildin"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/kategori_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,14 +89,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:fontFamily="@font/titan_one"
-        android:text="100"
         android:textColor="@color/white"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvTrue"
-        app:layout_constraintEnd_toStartOf="@+id/tvTrue"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/tvTrue"
@@ -104,13 +102,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:fontFamily="@font/titan_one"
-        android:text="100"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/tvFalse"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvHeart"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
@@ -118,14 +114,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:fontFamily="@font/titan_one"
-        android:text="100"
         android:textColor="@color/white"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvTrue"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvTrue" />
+        app:layout_constraintStart_toStartOf="@+id/imageView3" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -139,7 +133,7 @@
         android:drawablePadding="10dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="Yeniden oyna"
+        android:text="@string/yeniden_oyna"
         android:textAllCaps="false"
         android:textColor="@color/bluedark"
         app:layout_constraintBottom_toBottomOf="parent"

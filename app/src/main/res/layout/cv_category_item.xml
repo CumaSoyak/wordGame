@@ -21,7 +21,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/titan_one"
         android:maxLength="10"
-        android:text="@string/savas_baslik_tarih" />
+    />
 
     <View
         android:layout_width="match_parent"

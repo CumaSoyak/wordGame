@@ -6,6 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import app.logistics.utils.helper.genericadapter.ListItemViewModel
 import app.word.game.model.Sales
 import app.word.game.utlis.PrefUtils
+import app.word.game.utlis.PrefUtils.setNotAds
+import app.word.game.utlis.PrefUtils.setNotAdsAndOffline
+import app.word.game.utlis.PrefUtils.setOffline
+import app.word.game.utlis.PrefUtils.setUnLimitedHeart
+import app.word.game.utlis.PrefUtils.setUnLimitedTime
 import app.word.game.utlis.genericadapter.GenericAdapter
 import app.word.game.utlis.showSucces
 import com.android.billingclient.api.*
@@ -18,7 +23,7 @@ class SalesActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
     /***Billing*/
     private lateinit var billingClient: BillingClient
-    private val skuList = listOf("day", "week", "monday")
+    private val skuList = listOf("bir", "iki", "uc", "dort", "bes")
     private var moneyType: String? = null
     private var isBillingSetupFinished: Boolean = false
 
@@ -48,10 +53,13 @@ class SalesActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
     fun list(): ArrayList<Sales> {
         val sales: ArrayList<Sales> = arrayListOf()
-        sales.add(Sales("me", "Offline Oyna", "66", resources.getDrawable(R.drawable.ic_heart)))
-        sales.add(Sales("me", "Reklamsız Oyna", "66", resources.getDrawable(R.drawable.ic_heart)))
-        sales.add(Sales("me", "Reklamsız \n ve Offline Oyna", "66", resources.getDrawable(R.drawable.ic_heart)))
-        sales.add(Sales("me", "Sınırız can", "66", resources.getDrawable(R.drawable.ic_heart)))
+        sales.add(Sales("bir", getString(R.string.offline_oyna), resources.getDrawable(R.drawable.ic_empty)))
+        sales.add(Sales("iki", getString(R.string.sinirsiz_sure), resources.getDrawable(R.drawable.ic_empty)))
+        sales.add(Sales("uc", getString(R.string.sinirsiz_can), resources.getDrawable(R.drawable.ic_empty)))
+        sales.add(Sales("dort", getString(R.string.reklamsiz_oyna), resources.getDrawable(R.drawable.ic_empty)))
+        sales.add(
+            Sales("bes", getString(R.string.reklamsiz_ve_offline), resources.getDrawable(R.drawable.ic_empty))
+        )
         return sales
     }
 
@@ -129,7 +137,24 @@ class SalesActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
     fun tripUpdatePremium() {
         PrefUtils.updatePremium(moneyType!!)
-        showSucces("Tebrikler satın aldınız")
+        showSucces(getString(R.string.tebrikler_satin_aldiniz))
+        when (moneyType) {
+            "1" -> {
+                setOffline()
+            }
+            "2" -> {
+                setUnLimitedTime()
+            }
+            "3" -> {
+                setUnLimitedHeart()
+            }
+            "4" -> {
+                setNotAds()
+            }
+            "5" -> {
+                setNotAdsAndOffline()
+            }
+        }
     }
 
 }

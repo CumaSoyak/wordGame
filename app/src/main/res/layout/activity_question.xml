@@ -38,32 +38,39 @@
 
     <TextView
         android:id="@+id/firstChoose"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="@font/titan_one"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/card_choose"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/ibm_plex_sans_bold"
         android:gravity="center"
-        android:text="Evet"
-        app:layout_constraintBottom_toTopOf="@+id/adView_exams"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:textColor="@color/tundura"
+        app:layout_constraintBottom_toBottomOf="@+id/secondChoose"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/secondChoose"
-        app:layout_constraintTop_toBottomOf="@+id/tvQuestion" />
+        app:layout_constraintTop_toTopOf="@+id/secondChoose" />
 
     <TextView
         android:id="@+id/secondChoose"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="6dp"
         android:layout_marginBottom="24dp"
-        android:fontFamily="@font/titan_one"
+        android:background="@drawable/card_choose"
+        android:fontFamily="@font/ibm_plex_sans_bold"
         android:gravity="center"
-        android:text="@string/hayir"
+        android:padding="4dp"
         android:textAlignment="center"
+        android:textColor="@color/tundura"
         app:layout_constraintBottom_toTopOf="@+id/adView_exams"
         app:layout_constraintEnd_toStartOf="@+id/firstChoose"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvQuestion" />
 
@@ -77,15 +84,15 @@
         android:drawableEnd="@drawable/ic_next"
         android:fontFamily="@font/titan_one"
         android:gravity="center"
-        android:text="Devam et"
+        android:text="@string/devam_et"
         android:textColor="@color/white"
         android:textSize="21sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/adView_exams"
+        app:layout_constraintBottom_toBottomOf="@+id/secondChoose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.09"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvQuestion" />
+        app:layout_constraintTop_toTopOf="@+id/secondChoose" />
 
     <app.word.game.customview.CvAdmobView
         android:id="@+id/adView_exams"

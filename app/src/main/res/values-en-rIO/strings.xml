@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Word Game</string>
+    <string name="tebrikler_satin_aldiniz">Congratulations You Bought</string>
+    <string name="tarih">History</string>
+    <string name="spor">Sport</string>
+    <string name="sinirsiz_sure">Unlimited time</string>
+    <string name="sinirsiz_oyna">Unlimited Play</string>
+    <string name="sinirsiz_can">Unlimited Life</string>
+    <string name="sanat">Art</string>
+    <string name="reklamsiz_ve_offline">Play Ad-Free and Offline</string>
+    <string name="reklamsiz_oyna">Play Ad-Free</string>
+    <string name="tum_sorulari_bildin">🎉 Congratulations you know all the questions 🎉</string>
+    <string name="offline_oyna">Play Offline</string>
+    <string name="next">Next</string>
+    <string name="learning_text">Press and start</string>
+    <string name="learning_english">Learning English</string>
+    <string name="guncelle_uygulama">Update the application</string>
+    <string name="guncelle">Update</string>
+    <string name="eglence">Fun</string>
+    <string name="devam_et">Next</string>
+    <string name="cografya">Geography</string>
+    <string name="choose_mode">Choose Mode</string>
+    <string name="bilim">Science</string>
+    <string name="vazgec">Skip at</string>
+    <string name="yeniden_oyna">Play again</string>
+    <string name="learning_culture">Learning Culture</string>
+</resources>

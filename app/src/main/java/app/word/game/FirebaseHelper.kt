@@ -26,4 +26,28 @@ class FirebaseHelper {
         }
     }
 
+    fun isAppUpdateQuestion(update: (isUpdate: Boolean) -> Unit) {
+        var isFirst = true
+        var isFirstUpdate = true
+        val docRef = db.collection("questionUpdate")
+        docRef.addSnapshotListener { snapshot, e ->
+            if (snapshot != null) {
+                if (!snapshot.documents.isNullOrEmpty()) {
+                    val updateVersion = snapshot.documents.get(0)["update"].toString()
+                    if (updateVersion.equals("1")) {
+                        if (isFirstUpdate) {
+                            update(true)
+                            isFirstUpdate = false
+                        }
+                    } else {
+                        if (isFirstUpdate) {
+                            update(false)
+                            isFirstUpdate = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
