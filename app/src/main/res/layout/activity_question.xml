@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cancel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/secondChoose"
+        app:layout_constraintBottom_toTopOf="@+id/firstChoose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_shadow" />
@@ -40,45 +41,47 @@
         android:id="@+id/firstChoose"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:background="@drawable/card_choose"
+        android:background="@drawable/button_ripple"
         android:clickable="true"
         android:focusable="true"
-        android:fontFamily="@font/ibm_plex_sans_bold"
+        android:fontFamily="@font/ibm_plex_sans_semi_bold"
         android:gravity="center"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:textColor="@color/tundura"
-        app:layout_constraintBottom_toBottomOf="@+id/secondChoose"
+        app:layout_constraintBottom_toTopOf="@+id/secondChoose"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/secondChoose"
-        app:layout_constraintTop_toTopOf="@+id/secondChoose" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuestion"
+        tools:text="ilk cevap dksfmlskdfm sldkfmds sdlfmsdm sdlfm" />
 
     <TextView
         android:id="@+id/secondChoose"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/card_choose"
-        android:fontFamily="@font/ibm_plex_sans_bold"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_ripple"
+        android:fontFamily="@font/ibm_plex_sans_semi_bold"
         android:gravity="center"
         android:padding="4dp"
         android:textAlignment="center"
         android:textColor="@color/tundura"
         app:layout_constraintBottom_toTopOf="@+id/adView_exams"
-        app:layout_constraintEnd_toStartOf="@+id/firstChoose"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvQuestion" />
+        app:layout_constraintTop_toBottomOf="@+id/firstChoose"
+        tools:text="ikinci cevap kdsfnskdjnf sdkfms sdlkfm sdf" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvNextQuestion"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_margin="12dp"
         android:background="@drawable/card_background_next"
         android:drawableStart="@drawable/ic_empty"
         android:drawableEnd="@drawable/ic_next"
@@ -92,7 +95,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.09"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/secondChoose" />
+        app:layout_constraintTop_toTopOf="@+id/firstChoose"
+        tools:visibility="visible" />
 
     <app.word.game.customview.CvAdmobView
         android:id="@+id/adView_exams"

@@ -8,6 +8,7 @@ import app.word.game.utlis.showError
 import app.word.game.utlis.showSucces
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.soyak.extensions.utils.extensions.launchActivity
 import kotlinx.android.synthetic.main.activity_enter.*
 import java.util.*
 
@@ -16,6 +17,7 @@ class EnterActivity : AppCompatActivity() {
     lateinit var db: FirebaseFirestore
 
     var category: String = ""
+    var country: String = ""
     var options: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +25,9 @@ class EnterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_enter)
         db = FirebaseFirestore.getInstance()
 
+        optionCountry.setOnClickListener {
+            secCOuntry()
+        }
         sec.setOnClickListener {
             secCategory()
         }
@@ -31,6 +36,14 @@ class EnterActivity : AppCompatActivity() {
         }
         kaydet.setOnClickListener {
             savedQuestion()
+        }
+        clear.setOnClickListener {
+            soru.text.clear()
+            dogru.text.clear()
+            yanlis.text.clear()
+        }
+        gec.setOnClickListener {
+            launchActivity<MainActivity> { }
         }
     }
 
@@ -41,6 +54,19 @@ class EnterActivity : AppCompatActivity() {
         popup.setOnMenuItemClickListener { item: MenuItem? ->
             options = item?.itemId.toString()
             option.text = item?.title.toString()
+            true
+        }
+        popup.show()
+    }
+
+
+    fun secCOuntry() {
+        val popup = PopupMenu(this, sec)
+        popup.menu.add(0, 1, 0, "tr")
+        popup.menu.add(0, 2, 0, "en")
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
+            country = item?.title.toString()
+            optionCountry.text = item?.title.toString()
             true
         }
         popup.show()
@@ -82,7 +108,7 @@ class EnterActivity : AppCompatActivity() {
             "chooseOne" to chooseOne,
             "chooseTwo" to chooseTwo,
             "answer" to dogru.text.toString(),
-            "option" to options
+            "option" to options + country
         )
 
         db.collection("question")
@@ -91,6 +117,9 @@ class EnterActivity : AppCompatActivity() {
             .document(uuid)
             .set(question, SetOptions.merge()).addOnSuccessListener {
                 showSucces("Girildi")
+                soru.text.clear()
+                dogru.text.clear()
+                yanlis.text.clear()
             }.addOnFailureListener {
                 showError("Hata")
             }

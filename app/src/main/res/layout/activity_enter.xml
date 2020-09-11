@@ -9,6 +9,14 @@
 
 
     <TextView
+        android:id="@+id/optionCountry"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="Seç Dil"
+        android:textSize="18sp" />
+
+    <TextView
         android:id="@+id/option"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -57,5 +65,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Kaydet" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Temizle" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/gec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Geç" />
 
 </LinearLayout>

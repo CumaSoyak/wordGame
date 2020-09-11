@@ -106,7 +106,7 @@ object PrefUtils {
     }
 
     fun getOption(): Boolean {
-        return instance.getBoolean(Option, false) //default culture
+        return instance.getBoolean(Option, true) //default culture
     }
 
     fun getOptionCategory(): String {

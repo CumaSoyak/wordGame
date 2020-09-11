@@ -1,8 +1,9 @@
 package app.word.game
 
+import android.content.Context
 import android.content.pm.PackageManager
+import android.telephony.TelephonyManager
 import app.word.game.CoreApp.Companion.context
-import java.io.IOException
 
 object OtherUtils {
     fun versionNumber(): String? {
@@ -18,17 +19,18 @@ object OtherUtils {
     }
 
     fun getCountryCode(): String {
-        return "tr"
+        var location = if (!getCurrentCountryCode().equals("tr")) {
+            ""
+        } else {
+            "tr"
+        }
+        return location
     }
 
-    fun getJsonDataFromAsset(fileName: String): String? {
-        val jsonString: String
-        try {
-            jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            return null
-        }
-        return jsonString
+    fun getCurrentCountryCode(): String {
+        val telephonyManager =
+            context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val countryIso = telephonyManager.simCountryIso.toLowerCase()
+        return countryIso
     }
 }

@@ -25,4 +25,9 @@
     <string name="bilim">Science</string>
     <string name="vazgec">Skip at</string>
     <string name="learning_culture">Learning Culture</string>
+    <string name="app_name_notification">Word Game - Learning Funny English and Culture</string>
+    <string name="finish">finish</string>
+    <string name="win_and_play">Win and Play</string>
+    <string name="video_izle">Watch Video</string>
+    <string name="rate_us">Rate us</string>
 </resources>

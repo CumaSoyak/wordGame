@@ -14,8 +14,9 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        PrefUtils.setNotAds()
-        if (PrefUtils.getOffline() || PrefUtils.getNotAdsAndOffline()) {
+        if (intent.hasExtra("puan")) {
+            openGooglePlay()
+        } else if (PrefUtils.getOffline() || PrefUtils.getNotAdsAndOffline()) {
             nextMainActivity()
         } else {
             if (NetworkUtils.isNetworkAvailable(this)) {
@@ -32,7 +33,11 @@ class SplashActivity : AppCompatActivity() {
             if (update) {
                 updateApp()
             } else {
-                launchActivity<MainActivity> { }
+                if (BuildConfig.DEBUG) {
+                    launchActivity<EnterActivity> { }
+                } else {
+                    launchActivity<MainActivity> { }
+                }
             }
         }
     }
@@ -57,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     fun openGooglePlay() {
-        val appPackageName = getPackageName()
+        val appPackageName = packageName
         try {
             startActivity(
                 Intent(

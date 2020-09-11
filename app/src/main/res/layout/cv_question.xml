@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,10 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:layout_weight="1"
-        android:fontFamily="@font/aclonica"
+        android:fontFamily="@font/ibm_plex_sans_semi_bold"
         android:gravity="center"
-        android:text="sdfsdfsdf"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        tools:text="Merhabalar nasılsınız nerden gelyorsunz nereye gidiyorsunuz neden bu kadar uzun soru bu " />
 
     <TextView
         android:id="@+id/tvTruAnswer"
@@ -33,9 +34,8 @@
         android:layout_margin="12dp"
         android:fontFamily="@font/aclonica"
         android:gravity="center"
-        android:text="sdfsdfsdf"
         android:textColor="@color/green"
-        android:textSize="24sp"
+        android:textSize="15sp"
         android:visibility="gone" />
 
 

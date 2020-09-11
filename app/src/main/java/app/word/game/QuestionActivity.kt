@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.graphics.drawable.DrawableCompat
 import app.word.game.customview.IGameOver
 import app.word.game.model.Question
 import app.word.game.utlis.OptionData
@@ -27,7 +28,7 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
     var mTrueAnswer: Int = 0
     var mFalseAnswer: Int = 0
     var allQuestionCompleted = false
-
+    var finish: Boolean = false
     val category by lazy {
         intent.getIntExtra("category", -1)
     }
@@ -41,8 +42,12 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
         initListener()
         db = FirebaseFirestore.getInstance()
         tvQuestion.setCategory(category)
-        questionList = PrefUtils.getQuestion(PrefUtils.getOptionCategory()+category.toString())!!
-        initData()
+        PrefUtils.getQuestion(PrefUtils.getOptionCategory() + category.toString())?.let {
+            it.shuffle()
+            questionList.addAll(it)
+            initData()
+        }
+
     }
 
     fun initData() {
@@ -60,8 +65,21 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
             findAnswer(secondChoose.text.toString(), firstChoose.text.toString())
         }
         tvNextQuestion.setOnClickListener {
-            tvNextQuestion.visibility = View.GONE
-            tvQuestion.claerError()
+            if (finish) {
+                win()
+            } else {
+                questionItem++
+                firstChoose.visibility = View.VISIBLE
+                secondChoose.visibility = View.VISIBLE
+                tvNextQuestion.visibility = View.GONE
+                tvQuestion.claerError()
+                if (questionList.size > questionItem) {
+                    tvQuestion.setQuestion(questionList.get(questionItem).question)
+                    firstChoose.text = questionList.get(questionItem).chooseOne
+                    secondChoose.text = questionList.get(questionItem).chooseTwo
+                }
+            }
+
         }
     }
 
@@ -71,22 +89,25 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
             if (questionList.get(questionItem).answer.equals(answer)) {
                 tvQuestion.startAnimation(animationTrue)
                 mTrueAnswer++
+                questionItem++
             } else {
                 mFalseAnswer++
                 tvQuestion.startAnimation(animationFalse)
                 cvToolbar.falseAnswer(this)
                 tvQuestion.error()
+                firstChoose.visibility = View.INVISIBLE
+                secondChoose.visibility = View.INVISIBLE
                 tvNextQuestion.visibility = View.VISIBLE
                 tvQuestion.setTreuAnser(trueAnswer)
             }
-            questionItem++
             if (questionList.size > questionItem) {
                 tvQuestion.setQuestion(questionList.get(questionItem).question)
                 firstChoose.text = questionList.get(questionItem).chooseOne
                 secondChoose.text = questionList.get(questionItem).chooseTwo
             } else {
                 allQuestionCompleted = true
-                win()
+                finish = true
+                finishQuestion()
             }
         }
 
@@ -94,7 +115,8 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
 
     override fun finishGame() {
         if (!this.isFinishing) { //show dialog
-            win()
+            finish = true
+            finishQuestion()
         }
     }
 
@@ -114,6 +136,7 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
             }
             heart.text = "3"
         } else if (mFalseAnswer == 3) {
+            heart.text = "0"
             PrefUtils.setHeart(-1)
         } else {
             heart.text = (3 - mFalseAnswer).toString()
@@ -159,5 +182,13 @@ class QuestionActivity : AppCompatActivity(), IGameOver {
         question.add(Question("ankara", "ankara", "o", "ankara"))
         question.add(Question("anne", "mersin", "anne", "anne"))
         return question
+    }
+
+    fun finishQuestion() {
+        var compat = DrawableCompat.wrap(resources.getDrawable(R.drawable.card_background_next))
+        DrawableCompat.setTint(compat, resources.getColor(R.color.red))
+        tvNextQuestion.background = compat
+        tvNextQuestion.text = resources.getString(R.string.finish)
+        tvNextQuestion.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
     }
 }

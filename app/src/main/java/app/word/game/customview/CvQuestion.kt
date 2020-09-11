@@ -32,7 +32,7 @@ class CvQuestion @JvmOverloads constructor(
     }
 
     fun setTreuAnser(answer: String) {
-        tvTruAnswer.text = "Doğru cevap: "+answer
+        tvTruAnswer.text = answer
         tvTruAnswer.visibility = View.VISIBLE
     }
     fun setCategory(category: Int){

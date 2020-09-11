@@ -4,5 +4,6 @@ class Question(
     var question: String = "",
     var chooseOne: String = "",
     var chooseTwo: String = "",
-    var answer: String = ""
+    var answer: String = "",
+    var language: String = "en"
 )

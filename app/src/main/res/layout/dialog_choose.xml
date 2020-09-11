@@ -9,16 +9,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="24dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="24dp">
 
         <ImageView
             android:id="@+id/ivCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
             android:adjustViewBounds="true"
             android:padding="10dp"
             app:layout_constraintBottom_toTopOf="@+id/textView"
@@ -32,7 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:gravity="center"
-            android:text="Rekslskdfmsdknf sdkfnskdjfnsdjf sdjfnjskdnf sdkfjnksjdnf"
+            android:textSize="28sp"
+            android:fontFamily="@font/titan_one"
+            android:text="@string/win_and_play"
             android:textColor="@color/tundura"
             app:layout_constraintBottom_toTopOf="@+id/btnVieoPlay"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +49,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/back_yellow"
             android:fontFamily="@font/alfa_slab_one"
-            android:text="Video İzle"
+            android:text="@string/video_izle"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="22sp"

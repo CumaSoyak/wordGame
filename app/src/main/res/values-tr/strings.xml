@@ -13,7 +13,7 @@
     <string name="sanat">Sanat</string>
     <string name="reklamsiz_ve_offline">Reklamsız ve Offline Oyna</string>
     <string name="reklamsiz_oyna">Reklamsız Oyna</string>
-    <string name="learning_english">İngilize Öğren</string>
+    <string name="learning_english">ingilize Öğren</string>
     <string name="guncelle_uygulama">Uygulamayı güncelleyiniz</string>
     <string name="guncelle">Güncelle</string>
     <string name="eglence">Eğlence</string>
@@ -24,5 +24,10 @@
     <string name="learning_text">ÇArkı çevir ve başla</string>
     <string name="next">Devam</string>
     <string name="offline_oyna">Oflline Oyna</string>
-    <string name="learning_culture">"Kültürlen "</string>
+    <string name="learning_culture">Kültürlen</string>
+    <string name="app_name_notification">Word Game - İngilizce öğren ve Kültürlen :)</string>
+    <string name="finish">finish</string>
+    <string name="win_and_play">Kazanmak ve Oynamak için izle</string>
+    <string name="video_izle">Video izle</string>
+    <string name="rate_us">Değerlendir</string>
 </resources>

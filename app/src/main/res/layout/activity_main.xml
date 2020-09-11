@@ -170,5 +170,27 @@
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:srcCompat="@drawable/pusula" />
 
+    <ImageView
+        android:id="@+id/ivRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:tint="@color/yello"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSalles"
+        app:layout_constraintEnd_toStartOf="@+id/tvSalles"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvSalles"
+        app:srcCompat="@drawable/ic_star" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rate_us"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/ivRating"
+        app:layout_constraintStart_toStartOf="@+id/ivRating"
+        app:layout_constraintTop_toBottomOf="@+id/ivRating"
+        tools:text="Rate Us" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

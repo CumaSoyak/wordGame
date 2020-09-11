@@ -2,13 +2,14 @@ package app.word.game
 
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import app.word.game.CoreApp.Companion.db
+import app.word.game.OtherUtils.getCountryCode
 import app.word.game.model.Question
 import app.word.game.utlis.DialogUtils
 import app.word.game.utlis.PrefUtils
@@ -33,44 +34,36 @@ class MainActivity : AppCompatActivity() {
 
     private var mRewardedVideoAd: RewardedVideoAd? = null
     private var interstitialAd: InterstitialAd? = null
-
+    private var adCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        interstitialAd = InterstitialAd(this)
+        interstitialAd?.adUnitId = "ca-app-pub-7740710689946524/5048304902"
 
         animation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         mediaPlayer = MediaPlayer.create(this, R.raw.play_game)
         listener()
         tvLevel.text = "Level: " + PrefUtils.getLevel().toString()
         setPoint()
-        fullScreenAd()
         firstOpen()
         questionUpdate()
+        rotation = (1..6).random()
+
     }
 
     fun questionUpdate() {
-        if (PrefUtils.getQuestion("6") == null) {
-            getQuestionEnglish(1)
+        if (PrefUtils.getQuestion("16")?.size == 0) {
+            getQuestionCulture(1)
         }
         FirebaseHelper().isAppUpdateQuestion {
             if (it) {
-                getQuestionEnglish(1)
+                getQuestionCulture(1)
             }
         }
     }
 
-    fun fullScreenAd() {
-        interstitialAd = InterstitialAd(this)
-        interstitialAd?.adUnitId = "ca-app-pub-7740710689946524/5048304902"
-        interstitialAd?.loadAd(AdRequest.Builder().build())
-        interstitialAd?.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-
-            }
-        }
-    }
 
     fun listener() {
         ivPlay.setOnClickListener {
@@ -92,11 +85,17 @@ class MainActivity : AppCompatActivity() {
         ivSettings.setOnClickListener {
             DialogUtils.showPopupMode(this) {}
         }
+        ivRating.setOnClickListener {
+            openGooglePlay()
+        }
 
     }
 
     fun startReturn() {
-        rotation = (1..6).random()
+        rotation = ((rotation + 4) % 6)
+        if (rotation == 0) {
+            rotation = (1..6).random()
+        }
         mediaPlayer.start()
         ivPlay.startAnimation(animation)
     }
@@ -152,9 +151,25 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (!PrefUtils.getNotAds() && !PrefUtils.getNotAdsAndOffline()) {
-            interstitialAd?.show()
+            adCount++
+            if (adCount != 0 && adCount % 3 == 0) {
+                interstitialAd?.show()
+                interstitialAd?.adListener = object : AdListener() {
+                    override fun onAdLoaded() {
+                        super.onAdLoaded()
+
+                    }
+                }
+            } else {
+                fullScreenAd()
+            }
         }
         restartCategory()
+    }
+
+    fun fullScreenAd() {
+        interstitialAd?.loadAd(AdRequest.Builder().build())
+
     }
 
     fun restartCategory() {
@@ -247,24 +262,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        var count: Int = 0
-        val timer = object : CountDownTimer(1000, 10) {
-            override fun onFinish() {
-            }
-
-            override fun onTick(time: Long) {
-                100 - count++
-                category_history.progress(count)
-                category_sience.progress(count)
-                category_fun.progress(count)
-                category_geography.progress(count)
-                category_art.progress(count)
-                category_sport.progress(count)
-            }
-
-
-        }
-        timer.start()
+//        var count: Int = 0
+//        val timer = object : CountDownTimer(1000, 10) {
+//            override fun onFinish() {
+//            }
+//
+//            override fun onTick(time: Long) {
+//                100 - count++
+//                category_history.progress(count)
+//                category_sience.progress(count)
+//                category_fun.progress(count)
+//                category_geography.progress(count)
+//                category_art.progress(count)
+//                category_sport.progress(count)
+//            }
+//
+//
+//        }
+//        timer.start()
 
     }
 
@@ -280,7 +295,7 @@ class MainActivity : AppCompatActivity() {
             if (category <= 6) {
                 PrefUtils.setQuestion("2", category.toString(), Gson().toJson(questionList))
                 getQuestionEnglish(category + 1)
-                getQuestionCulture(1)
+                //  getQuestionCulture(1)
             }
 
         }
@@ -289,7 +304,7 @@ class MainActivity : AppCompatActivity() {
     fun getQuestionCulture(category: Int) {
         val questionList: ArrayList<Question> = arrayListOf()
         val docRef = db.collection("question").document("info").collection(category.toString())
-            .whereEqualTo("option", "1")
+            .whereEqualTo("option", "1" + getCountryCode())
         docRef.addSnapshotListener { snapshot, e ->
             snapshot?.forEachIndexed { index, queryDocumentSnapshot ->
                 val data: Question = queryDocumentSnapshot.toObject(Question::class.java)
@@ -300,6 +315,25 @@ class MainActivity : AppCompatActivity() {
                 getQuestionCulture(category + 1)
             }
 
+        }
+    }
+
+    fun openGooglePlay() {
+        val appPackageName = packageName
+        try {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=" + appPackageName)
+                )
+            )
+        } catch (anfe: android.content.ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)
+                )
+            )
         }
     }
 
